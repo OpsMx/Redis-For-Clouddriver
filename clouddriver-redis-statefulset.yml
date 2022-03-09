@@ -1,35 +1,31 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  annotations:
-    meta.helm.sh/release-name: cloudwu
-    meta.helm.sh/release-namespace: wucloud-test
   labels:
-    app: redis-new
+    app: redis
     app.kubernetes.io/managed-by: Helm
     chart: redis-10.5.3
     heritage: Helm
     release: cloudwu
-  name: cloudwu-redis-master-new
-  namespace: wucloud-test
+  name: <NEW_NAME>
+  namespace: <NAMESPACE>
 spec:
   podManagementPolicy: OrderedReady
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: redis-new
-      release: cloudwu
-      role: master-new
-  serviceName: cloudwu-redis-headless
+      app: <YOUR APP NAME>
+      release: <YOUR RELEASE NAME>
+      role: <YOUR ROLE NAME>
+  serviceName: cloudwu-redis-headless  ## SERVICE NAME OF REDIS_HEADLESS IF NOT EXIST CREATE IT
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: redis-new
+        app: <YOUR APP NAME>
         chart: redis-10.5.3
-        release: cloudwu
-        role: master-new
+        release: <YOUR RELEASE NAME>
+        role: <YOUR ROLE NAME>
     spec:
       containers:
       - command:
@@ -100,7 +96,7 @@ spec:
         - mountPath: /health
           name: health
         - mountPath: /data
-          name: redis-data-new
+          name: <PVC_NAME>
         - mountPath: /opt/bitnami/redis/mounted-etc
           name: config
         - mountPath: /opt/bitnami/redis/etc/
@@ -136,7 +132,7 @@ spec:
         component: master
         heritage: Helm
         release: cloudwu
-      name: redis-data-new
+      name: <PVC_NAME>
     spec:
       accessModes:
       - ReadWriteOnce
@@ -144,4 +140,3 @@ spec:
         requests:
           storage: 8Gi
       volumeMode: Filesystem
-
