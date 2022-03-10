@@ -96,7 +96,7 @@ spec:
         - mountPath: /health
           name: health
         - mountPath: /data
-          name: <PVC_NAME>
+          name: redis-new-data
         - mountPath: /opt/bitnami/redis/mounted-etc
           name: config
         - mountPath: /opt/bitnami/redis/etc/
@@ -120,23 +120,7 @@ spec:
         name: config
       - emptyDir: {}
         name: redis-tmp-conf
+      - emptyDir: {}
+        name: redis-new-data
   updateStrategy:
     type: RollingUpdate
-  volumeClaimTemplates:
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      creationTimestamp: null
-      labels:
-        app: redis
-        component: master
-        heritage: Helm
-        release: cloudwu
-      name: <PVC_NAME>
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 8Gi
-      volumeMode: Filesystem
