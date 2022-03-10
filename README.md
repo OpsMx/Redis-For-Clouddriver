@@ -28,7 +28,7 @@ clouddriver-ro-local.yml
 
 - Update the below details in "clouddriver-<>-local.yml" files
 ```
-services.redis.baseUrl: redis://:password@cloudwu-redis-master-new:6379
+services.redis.baseUrl: redis://:password@<service-name of new redis>:6379
 redis.poll.timeoutSeconds: 600
 redis.poll.intervalSeconds: 75
 server.max-http-header-size: 100000
