@@ -15,18 +15,13 @@
 
 #### Note: Instructions are provided with the assumption that your halyard is mounted on SCM(Github,GitLab,BitBucket,e.t.c)
 
-- Navigate to "default/profiles" and create "clouddriver-<caching/ro/rw/ro-deck>-local.yml" files.
+- Navigate to "default/profiles" and create "clouddriver-local.yml" files.
 
-##### Note: If you have HA enabled for Clouddriver you will have create "clouddriver-<caching/ro/rw/ro-deck>-local.yml" if not only "clouddriver-local.yml"
-```
-Example: 
-clouddriver-caching-local.yml
-clouddriver-rw-local.yml
-clouddriver-ro-deck-local.yml
-clouddriver-ro-local.yml
-```
+##### Note: If you have HA enabled for Clouddriver you will have to create "clouddriver-local.yml" ``
 
-- Update the below details in "clouddriver-<>-local.yml" files
+
+
+- Update the below details in "clouddriver-local.yml" files
 ```
 services.redis.baseUrl: redis://:password@<service-name of new redis>:6379
 redis.poll.timeoutSeconds: 600
