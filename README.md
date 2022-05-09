@@ -5,7 +5,7 @@
 
 ## Commands to Execute
 
-1. Execute the below command to create the Redis Statefulset for Clouddriver.
+1. Execute the below command to create the Redis yml files for Clouddriver.
 
     ```kubectl apply -f <statefulset.yml>  -n  <namespace>```
     
