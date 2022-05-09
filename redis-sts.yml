@@ -1,31 +1,35 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  annotations:
+    meta.helm.sh/release-name: cloudwu
+    meta.helm.sh/release-namespace: isd-cloudwu
   labels:
-    app: redis
+    app: redis-new
     app.kubernetes.io/managed-by: Helm
     chart: redis-10.5.3
     heritage: Helm
     release: cloudwu
-  name: <NEW_NAME>
-  namespace: <NAMESPACE>
+  name: cloudwu-redis-master-new
+  namespace: <namespace>
 spec:
   podManagementPolicy: OrderedReady
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: <YOUR APP NAME>
-      release: <YOUR RELEASE NAME>
-      role: <YOUR ROLE NAME>
-  serviceName: cloudwu-redis-headless  ## SERVICE NAME OF REDIS_HEADLESS IF NOT EXIST CREATE IT
+      app: redis-new
+      release: cloudwu
+      role: master-new
+  serviceName: ops-headless
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: <YOUR APP NAME>
+        app: redis-new
         chart: redis-10.5.3
-        release: <YOUR RELEASE NAME>
-        role: <YOUR ROLE NAME>
+        release: cloudwu
+        role: master-new
     spec:
       containers:
       - command:
@@ -55,7 +59,7 @@ spec:
           valueFrom:
             secretKeyRef:
               key: redis-password
-              name: cloudwu-redis
+              name: ops-redis
         - name: REDIS_PORT
           value: "6379"
         image: quay.io/opsmxpublic/bitnami-redis:5.0.7-debian-10-r0
@@ -71,7 +75,7 @@ spec:
           periodSeconds: 5
           successThreshold: 1
           timeoutSeconds: 5
-        name: cloudwu-redis
+        name: ops-redis
         ports:
         - containerPort: 6379
           name: redis
@@ -96,7 +100,7 @@ spec:
         - mountPath: /health
           name: health
         - mountPath: /data
-          name: redis-new-data
+          name: redis-data-new
         - mountPath: /opt/bitnami/redis/mounted-etc
           name: config
         - mountPath: /opt/bitnami/redis/etc/
@@ -112,15 +116,31 @@ spec:
       volumes:
       - configMap:
           defaultMode: 493
-          name: cloudwu-redis-health
+          name: ops-redis-health
         name: health
       - configMap:
           defaultMode: 420
-          name: cloudwu-redis
+          name: ops-redis
         name: config
       - emptyDir: {}
         name: redis-tmp-conf
-      - emptyDir: {}
-        name: redis-new-data
   updateStrategy:
     type: RollingUpdate
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: redis
+        component: master
+        heritage: Helm
+        release: cloudwu
+      name: redis-data-new
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 15Gi
+      volumeMode: Filesystem

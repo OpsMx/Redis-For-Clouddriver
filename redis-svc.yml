@@ -1,6 +1,9 @@
 apiVersion: v1
 kind: Service
-metadata: 
+metadata:
+  annotations:
+    meta.helm.sh/release-name: cloudwu
+    meta.helm.sh/release-namespace: isd-cloudwu 
   labels:
     app: redis
     app.kubernetes.io/managed-by: Helm
@@ -8,7 +11,7 @@ metadata:
     heritage: Helm
     release: cloudwu          
   name: cloudwu-redis-master-new
-  namespace: wucloud-test
+  namespace: <namespace>
 spec:
   ports:
   - name: redis
@@ -16,8 +19,8 @@ spec:
     protocol: TCP
     targetPort: redis
   selector:
-    app: <YOUR APP NAME>
-    release: <YOUR RELEASE NAME>
-    role: <YOUR ROLE NAME>
+    app: redis-new
+    release: cloudwu
+    role: master-new
   sessionAffinity: None
   type: ClusterIP
