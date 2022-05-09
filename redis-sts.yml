@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   annotations:
-    meta.helm.sh/release-name: cloudwu
-    meta.helm.sh/release-namespace: isd-cloudwu
+    meta.helm.sh/release-name: <releasename>
+    meta.helm.sh/release-namespace: <namespace>
   labels:
     app: redis-new
     app.kubernetes.io/managed-by: Helm
     chart: redis-10.5.3
     heritage: Helm
-    release: cloudwu
+    release: <releasename>
   name: cloudwu-redis-master-new
   namespace: <namespace>
 spec:
