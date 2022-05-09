@@ -10,6 +10,12 @@
     ```kubectl apply -f <statefulset.yml>  -n  <namespace>```
     
     ```kubectl apply -f <service.yml>  -n  <namespace>```
+    
+    ```kubectl apply -f <secret.yml>  -n  <namespace>```
+    
+    ```kubectl apply -f <health-cm.yml>  -n  <namespace>```
+    
+    ```kubectl apply -f <redis-cm.yml>  -n  <namespace>```
 
 ## Modifications to be done in the Halyard
 
